@@ -1,12 +1,10 @@
 import React from 'react';
-import Menu from './Menu';
-import Login from './Login';
+import Routes from './routes';
 
 function App() {
   return (
    <div>
-     <Menu/>
-     <Login/>
+     <Routes/>
    </div>
   );
 }

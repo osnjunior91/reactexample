@@ -1,10 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom'
 import firebase from '../firebaseConnection';
 import './index.css';
 
 
-export default class Login extends Component{
-    constructor(props){
+export default class Login extends Component {
+    constructor(props) {
         super(props);
         this.state = {
             email: '',
@@ -15,55 +16,56 @@ export default class Login extends Component{
         this.changeInput = this.changeInput.bind(this);
     }
 
-    loginUsuario(e){
+    loginUsuario(e) {
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.senha)
-        .then((user) => {
-             alert(`Bem-vindo ${user.user.email}!`);
-        })
-        .catch((error) => {
-             alert(`Erro:  ${error}.`);
-        });
- 
+            .then((user) => {
+                alert(`Bem-vindo ${user.user.email}!`);
+                this.props.history.push("/");
+            })
+            .catch((error) => {
+                alert(`Erro:  ${error}.`);
+            });
+
     }
 
-    cadastrarUsuario(e){
-       firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.senha)
-       .then((user) => {
-            alert(`Usuário ${user.user.uid} criado com sucesso.`);
-       })
-       .catch((error) => {
-            alert(`Erro:  ${error}.`);
-       });
+    cadastrarUsuario(e) {
+        firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.senha)
+            .then((user) => {
+                alert(`Usuário ${user.user.uid} criado com sucesso.`);
+            })
+            .catch((error) => {
+                alert(`Erro:  ${error}.`);
+            });
         e.preventDefault();
     }
 
-    changeInput(e){
-        this.setState({[e.target.name]: e.target.value});
+    changeInput(e) {
+        this.setState({ [e.target.name]: e.target.value });
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <div className="login">
                 <div className="jumbotron">
-                        <h1>
-                            Login
+                    <h1>
+                        Login
                         </h1>
-                        <div class="form-group">
-                            <label for="usr">Email:</label>
-                            <input type="text" class="form-control" id="usr" name="email" value={this.state.email} 
+                    <div className="form-group">
+                        <label htmlFor="usr">Email:</label>
+                        <input type="text" className="form-control" id="usr" name="email" value={this.state.email}
                             onChange={this.changeInput} />
-                            </div>
-                        <div class="form-group">
-                            <label for="pwd">Senha:</label>
-                            <input type="password" class="form-control" id="pwd" name="senha" value={this.state.senha} 
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="pwd">Senha:</label>
+                        <input type="password" className="form-control" id="pwd" name="senha" value={this.state.senha}
                             onChange={this.changeInput} />
-                        </div>
-                        <br/>
-                        <button type="button" onClick={this.loginUsuario} class="btn btn-primary btn-lg btn-block">Login</button>
-                        <br/>
-                        <button type="button" onClick={this.cadastrarUsuario} class="btn btn-secondary btn-lg btn-block">Cadastrar usuário</button>
+                    </div>
+                    <br />
+                    <button type="button" onClick={this.loginUsuario} className="btn btn-primary btn-lg btn-block">Login</button>
+                    <br />
+                    <button type="button" onClick={this.cadastrarUsuario} className="btn btn-secondary btn-lg btn-block">Cadastrar usuário</button>
                 </div>
-            </div>  
+            </div>
         );
     }
 }
